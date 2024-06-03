@@ -17,7 +17,7 @@ members = 71
 icefee_paying_members = members * 0.395 # according to this year's stats
 players = 11 # average from this year
 membership_fee = 50
-ice_fee = 140 # per year
+ice_fee_per_year = 140 # per year
 beginners_ice_fee = 25
 beginners = 4 # guess?
 n_of_matches = 10
@@ -34,7 +34,7 @@ spon = 0
 
 membership = members * membership_fee
 buiha_fees = buiha_fee * teams
-ice_fees = ((members * 0.395) * ice_fee) + (beginners * beginners_ice_fee)
+ice_fees = ((members * 0.395) * ice_fee_per_year) + (beginners * beginners_ice_fee)
 match_fees = (players * 20) * n_of_matches
 trainings = training_sessions * ice_hire
 matches = (ref_hire + (ice_hire * 2)) * n_of_matches
