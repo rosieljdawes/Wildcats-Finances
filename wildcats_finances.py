@@ -1,51 +1,70 @@
-# equation:
-
-# x in = x_membership + x_grant + x_spon + x_icefees + x_matchfees
-# x out = x_training + x_matches + x_beginners + x_BUIHAFEES
-# ----------------------------------------------
-# x in:
-# x_membership = n_members * x_membershipfee
-# x_icefees = ((n_members * 39.5%) * x_icefees) + (n_beginners * x_beginners_icefees)
-# x_matchfees = (n_players (av. 11) * £20) * n_matchess
-# x out:
-# x_trainings = n_training sessions * x_ice hire
-# x_matches = (x_refhire + (x_icehire * 2)) * n_matches
-# x_beginners = n_sessions * x_icehire
-#---------------------------------------------------------------------
 # variables:
-members = 71
-icefee_paying_members = members * 0.395 # according to this year's stats
-players = 11 # average from this year
-membership_fee = 50
-ice_fee_per_year = 140 # per year
-beginners_ice_fee = 25
-beginners = 4 # guess?
-n_of_matches = 10
-training_sessions = 40
-ice_hire = 120
-ref_hire = 130 # 90-140
-beginners_sessions = 20
-teams = 2
-buiha_fee = 100
+# both variables:
+num_members = 71 
+matches_per_year_per_team = 5
+mpypt = matches_per_year_per_team
+# money in variables:
+sem_1_ice_fee_paying_members = 28 # unsure
+s1ifpm = sem_1_ice_fee_paying_members
+sem_2_ice_fee_paying_members = 28 # unsure
+s2ifpm = sem_2_ice_fee_paying_members
+players = 11 # average from this year- get stats
+membership_fee = 50 # certain
+sem_1_ice_fee_cost = 65 # certain
+s1ifc = sem_1_ice_fee_cost
+sem_2_ice_fee_cost = 75 # certain
+s2ifc = sem_2_ice_fee_cost
+beginners_sem_1_ice_fee_cost = 25 # certain
+bs1ifc = beginners_sem_1_ice_fee_cost
+beginners_sem_2_ice_fee_cost = 35 # certain
+bs2ifc = beginners_sem_2_ice_fee_cost
+beginners_paying_sem_1_beg_ice_fee = 2 # unsure
+bps1bif = beginners_paying_sem_1_beg_ice_fee
+beginners_paying_sem_2_beg_ice_fee = 2 # unsure
+bps2bif = beginners_paying_sem_2_beg_ice_fee
 grant = 2350
 spon = 0
+match_fee_cost = 20
+# percent_of_members_pay_ice_fees = (s1ifpm + s2ifpm) / num_members
+# pompif = percent_of_members_pay_ice_fees
+
+# money out variables:
+num_training_sessions = 40 # also a guess
+ice_hire = 120
+ref_hire = 130 # 90-140
+num_beginners_sessions = 20 #also unsure by a bit
+num_teams = 2
+buiha_fee = 100
+buiha_aff_fee = 50
+
+
 
 #--------------------------------------------------------------------
 
-membership = members * membership_fee
-buiha_fees = buiha_fee * teams
-ice_fees = ((members * 0.395) * ice_fee_per_year) + (beginners * beginners_ice_fee)
-match_fees = (players * 20) * n_of_matches
-trainings = training_sessions * ice_hire
-matches = (ref_hire + (ice_hire * 2)) * n_of_matches
-beginners_costs = beginners_sessions * ice_hire
+membership_income = num_members * membership_fee
+buiha_fees = buiha_fee * num_teams
+sem_1_ice_fee = sem_1_ice_fee_paying_members * sem_1_ice_fee_cost
+sem_2_ice_fee = sem_2_ice_fee_paying_members * sem_2_ice_fee_cost
+players_ice_fees = sem_1_ice_fee + sem_2_ice_fee
+sem_1_beg_ice_fee = bps1bif * beginners_sem_1_ice_fee_cost
+sem_2_beg_ice_fee = bps2bif * beginners_sem_2_ice_fee_cost
+beginners_fees = sem_1_beg_ice_fee + sem_2_beg_ice_fee
+annual_ice_fees = players_ice_fees + beginners_fees
+num_matches = num_teams * mpypt
+match_fees_income = (players * match_fee_cost) * num_matches
+training_cost = num_training_sessions * ice_hire
+match_cost = (ref_hire + (ice_hire * 2)) * num_matches
+beginners_costs = num_beginners_sessions * ice_hire
+buiha_costs = buiha_aff_fee + (buiha_fee * num_teams)
 
 
-x_in = membership + grant + spon + ice_fees + match_fees
-x_out = trainings + matches + beginners_costs + buiha_fees
+x_in = membership_fee + grant + spon + annual_ice_fees + match_fees_income
+x_out = training_cost + match_cost + beginners_costs + buiha_costs
 
 
 print(int(x_in - x_out))
+
+
 
 
 
