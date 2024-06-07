@@ -1,0 +1,12 @@
+To do:
+1. make a list of stats needed, and certaininty/ variation 
+2. research normal distibution, standard deviation (in context of monte carlo simulation, look up examples/ example code)
+3. get more familiar with numpy, scipy and matplotlib
+4. get up to date stats from brian/ mabel
+5. write out pseudocode of the logic
+
+
+things needed: 
+1.confirm unsure numbers
+2. any unknown money in?
+3. any unknown money out?
