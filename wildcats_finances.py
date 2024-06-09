@@ -1,6 +1,6 @@
 ### ------- INDEPENDENT VARIABLES -------- ###
 
-num_training_sessions = 40  # also a guess
+num_training_sessions = 48  # also a guess
 num_beginners_sessions = 20  # also unsure by a bit
 num_members = 69  # certain
 grant = 2350  # unsure
@@ -76,7 +76,7 @@ num_matches = num_teams * mpypt
 # match_beers = 25 * num_matches
 # match_cost = (ref_hire + (ice_hire * 2)) * num_matches + match_beers
 # nationals_income = nationals_fees * num_members_paid_nationals_fees
-corrective_factor = 640
+starting_money = 640
 
 # x_in =  membership_income + grant + spon + annual_ice_fees + match_fees_income + nationals_income
 # x_out = training_cost + match_cost + beginners_costs + buiha_costs + misc_costs + nationals_cost
@@ -87,8 +87,7 @@ x_out = (
     + buiha_aff_fee
     + num_teams * (buiha_fee + 500)
     + misc_costs
-    + corrective_factor
-) 
+)
 
 x_in = num_members * (
     membership_fee
@@ -109,7 +108,7 @@ num_members = (
     + buiha_aff_fee
     + num_teams * (buiha_fee + 500)
     + misc_costs
-    + corrective_factor
+    
     - (
         grant
         + spon
@@ -125,43 +124,70 @@ num_members = (
 )
 
 # Print the result
-print(num_members)
 
+print(f"x_in = {x_out}")
+print(f"x_out = {x_out}")
+print(f"Number of members = {num_members}")
 
-
-
-
-#JAMES BITS
+# JAMES BITS
 
 ### expand x_in and x_out entirely
 
-match_beers = 25 # define this as per match for both teams' beers so we minimise the number of numbers in the equation
-buiha_league_fee_per_team = 100 # make this more explicit, was buiha_fee
-buiha_nationals_fee_per_team = 500 # define this explicitly, was '500'
-num_matches_per_team = 5 # make this more explicit, no need for per_year as the whole problem is per year
-required_num_players = 11 # call it required_num_players instead of players, as we need 11 for a match - this can be an independent var
+match_beers = 25  # define this as per match for both teams' beers so we minimise the number of numbers in the equation
+buiha_league_fee_per_team = 100  # make this more explicit, was buiha_fee
+buiha_nationals_fee_per_team = 500  # define this explicitly, was '500'
+num_matches_per_team =  5  # make this more explicit, no need for per_year as the whole problem is per year
+required_num_players = 11  # call it required_num_players instead of players, as we need 11 for a match - this can be an independent var
 starting_money = 640
 
-#expanded:
+# expanded:
 # x_out = (num_training_sessions * ice_hire) + (num_beginners_sessions * ice_hire) + num_teams * (num_matches_per_team * (match_beers + ref_hire + 2 * (ice_hire))) + (buiha_aff_fee) + num_teams * (buiha_league_fee_per_team + buiha_nationals_fee_per_team) + misc_costs
-#simplified a bit
-x_out = ice_hire * (num_training_sessions + num_beginners_sessions) + num_teams * ((num_matches_per_team * (match_beers + ref_hire + 2 * ice_hire)) + (buiha_league_fee_per_team + buiha_nationals_fee_per_team))  + buiha_aff_fee + misc_costs
+# simplified a bit
+x_out = (
+    ice_hire * (num_training_sessions + num_beginners_sessions)
+    + num_teams
+    * (
+        (num_matches_per_team * (match_beers + ref_hire + 2 * ice_hire))
+        + (buiha_league_fee_per_team + buiha_nationals_fee_per_team)
+    )
+    + buiha_aff_fee
+    + misc_costs
+)
 
-#expanded:
-# x_in = ((num_members * membership_fee) + ((sem_1_ice_fee_cost * member_to_player_dropoff_rate * num_members + beginners_sem_1_ice_fee_cost * num_members * sem_1_beginner_to_training_rate) + 
-                                        #  (sem_2_ice_fee_cost * member_to_player_dropoff_rate * num_members + beginners_sem_2_ice_fee_cost * num_members * sem_2_beginner_to_training_rate)) +
-                                        # (num_matches * match_fee_cost * required_num_players) + (nationals_fees * player_to_nationals_rate * num_members) + (grant + spon))
-#simplified:
-# x_in = num_members * (membership_fee + (sem_1_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate) + 
-                    #   (sem_2_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate) + 
-                    #   nationals_fees * player_to_nationals_rate
-                    #   ) + grant + spon + (num_matches * match_fee_cost * required_num_players)
-                                        
+# expanded:
+# x_in = ((num_members * membership_fee) + ((sem_1_ice_fee_cost * member_to_player_dropoff_rate * num_members + beginners_sem_1_ice_fee_cost * num_members * sem_1_beginner_to_training_rate) +
+#  (sem_2_ice_fee_cost * member_to_player_dropoff_rate * num_members + beginners_sem_2_ice_fee_cost * num_members * sem_2_beginner_to_training_rate)) +
+# (num_matches * match_fee_cost * required_num_players) + (nationals_fees * player_to_nationals_rate * num_members) + (grant + spon))
+# simplified:
+x_in = num_members * (membership_fee + (sem_1_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate) +
+(sem_2_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate) + nationals_fees * player_to_nationals_rate) + grant + spon + (num_matches * match_fee_cost * required_num_players)
+
 # so arrange for num_members:
 # x_in + starting_money - x_out = 0
 # x_in = x_out - starting_money
-num_members = (x_out - starting_money - grant - spon - (num_matches * match_fee_cost * required_num_players)) / ((membership_fee + (sem_1_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate) + (sem_2_ice_fee_cost * member_to_player_dropoff_rate) + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate) + nationals_fees * player_to_nationals_rate))
+num_members = (
+    x_out
+    - starting_money
+    - grant
+    - spon
+    - (num_matches * match_fee_cost * required_num_players)
+) / (
+    (
+        membership_fee
+        + (sem_1_ice_fee_cost * member_to_player_dropoff_rate)
+        + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate)
+        + (sem_2_ice_fee_cost * member_to_player_dropoff_rate)
+        + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate)
+        + nationals_fees * player_to_nationals_rate
+    )
+)
 
+
+
+
+print(f"x_in = {x_out}")
+print(f"x_out = {x_out}")
+print(f"Number of members = {num_members}")
 
 
 ## i think your corrective factor needs to be negative?
@@ -174,4 +200,4 @@ num_members = (x_out - starting_money - grant - spon - (num_matches * match_fee_
 #  (membership_fee + sem_1_beginner_to_training_rate * beginners_sem_1_ice_fee_cost + sem_2_beginner_to_training_rate * beginners_sem_2_ice_fee_cost + nationals_fees * player_to_nationals_rate)
 
 # Print the result
-print(num_members)
+
