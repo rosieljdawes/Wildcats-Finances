@@ -1,6 +1,6 @@
 ### ------- INDEPENDENT VARIABLES -------- ###
 
-num_training_sessions = 48  # also a guess
+num_training_sessions = 62  # also a guess
 num_beginners_sessions = 20  # also unsure by a bit
 num_members = 69  # certain
 grant = 2350  # unsure
@@ -76,7 +76,7 @@ num_matches = num_teams * mpypt
 # match_beers = 25 * num_matches
 # match_cost = (ref_hire + (ice_hire * 2)) * num_matches + match_beers
 # nationals_income = nationals_fees * num_members_paid_nationals_fees
-starting_money = 640
+#starting_money = 640
 
 # x_in =  membership_income + grant + spon + annual_ice_fees + match_fees_income + nationals_income
 # x_out = training_cost + match_cost + beginners_costs + buiha_costs + misc_costs + nationals_cost
@@ -125,7 +125,7 @@ num_members = (
 
 # Print the result
 
-print(f"x_in = {x_out}")
+print(f"x_in = {x_in}")
 print(f"x_out = {x_out}")
 print(f"Number of members = {num_members}")
 
@@ -185,7 +185,7 @@ num_members = (
 
 
 
-print(f"x_in = {x_out}")
+print(f"x_in = {x_in}")
 print(f"x_out = {x_out}")
 print(f"Number of members = {num_members}")
 

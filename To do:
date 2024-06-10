@@ -4,6 +4,7 @@ To do:
 3. get more familiar with numpy, scipy and matplotlib
 4. get up to date stats from brian/ mabel
 5. write out pseudocode of the logic
+6. contact SU to get copy of finances
 
 
 things needed: 
@@ -92,10 +93,10 @@ x_out = training_cost + match_cost + beginners_costs + buiha_costs + misc_costs
 print(int(x_in - x_out))
 
 entire_outgoings = 15_700
-entire_ingoings = 17_162 # not inc grant, inc spon
-
-
-current_funds = 4,607 # still need to pay a rink imvoice
+entire_ingoings = 17_162 # not inc grant, inc spon  19,400
+balance_should_be = 3,700 
+ 
+current_funds = 4,607 # still need to pay a rink invoice
 
 # ------------------------------------------------------
 
