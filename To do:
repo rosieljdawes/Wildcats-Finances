@@ -201,3 +201,6 @@ nationals_income = nationals_fees * num_members_paid_nationals_fees
 x_in =  membership_income + grant + spon + annual_ice_fees + match_fees_income + nationals_income
 x_out = training_cost + match_cost + beginners_costs + buiha_costs + misc_costs + nationals_cost
 
+
+which side of the club makes more money- competitve or beginners ?
+- how many beginners needed to self fund
