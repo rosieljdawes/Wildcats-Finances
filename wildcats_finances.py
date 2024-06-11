@@ -1,103 +1,161 @@
-##------- INDEPENDENT VARIABLES -------- ###
+# --------------------DICTIONARIES---------------------#
+# -----COSTS-----#
+costs = {
+    "Ice hire": 120,
+    "BUIHA league fee per team": 100,
+    "BUIHA affiliation fee": 50,
+    "BUIHA nationals fee per team": 500,
+    "Match beers": 25,
+    "Ref hire": 130,
+}
 
-num_training_sessions = 62
-num_beginners_sessions = 20
-num_members = 69
-grants = 3350 #incl. spon
-# equipment_grant = 500 (remove completely as it should be added to the grants variable)
-eys_grant = 400 # kept seperate 
-membership_fee = 50
-sem_1_ice_fee_cost = 65
-sem_2_ice_fee_cost = 75
-beginners_sem_1_ice_fee_cost = 25
-beginners_sem_2_ice_fee_cost = 35
+# -----CONTROLLABLE VARIABLES-----#
+controllable_variables = {
+    "Number of training sessions": 62,
+    "Number of beginners sessions": 20,
+    "Number of members": 69,
+    "Grant and spon": 3350,
+    "EYS grant": 400,
+    "Membership fee": 50,
+    "Semester 1 ice fee cost": 65,
+    "Semester 2 ice fee cost": 75,
+    "Beginners semester 1 ice fee cost": 25,
+    "Beginners semester 2 ice fee cost": 35,
+    "Nationals fees cost": 45,
+    "Match fee cost": 20,
+    "Initial funds": 3200,
+    "Starting money": 0,
+    "Number of players in a match": 11,
+    "Number of matches per team": 5,
+    "Number of teams": 2,
+}
 
-
-
-member_to_player_dropoff_rate = 31 / 69
-sem1_to_sem2_dropoff_rate = 24 / 31
-sem_1_beginner_to_training_rate = 2 / 69
-sem_2_beginner_to_training_rate = 5 / 69
-member_to_nationals_rate = 24 / 69
-
-### -------- DEPENDENT VARIABLES -------- ###
-
-sem_1_ice_fee_paying_members = member_to_player_dropoff_rate * num_members
-sem_2_ice_fee_paying_members = sem_1_ice_fee_paying_members * sem1_to_sem2_dropoff_rate
-
-beginners_paying_sem_1_beg_ice_fee = sem_1_beginner_to_training_rate * num_members
-beginners_paying_sem_2_beg_ice_fee = sem_2_beginner_to_training_rate * num_members
-
-num_members_paid_nationals_fees = member_to_nationals_rate * num_members
-
-### --------- DEFINED VARIABLES ---------- ###
-
-ice_hire = 120
-num_teams = 2
-buiha_league_fee_per_team = 100
-buiha_aff_fee = 50
-num_matches_per_team = 5
-buiha_nationals_fee_per_team = 500
-match_fee_cost = 20
-nationals_fees = 45
-initial_funds = 3200
-match_beers = 25
-starting_money = 0
+# -----DROP-OFF RATES-----#
+dropoff_rates = {
+    "Member to player dropoff rate": 31 / 69,
+    "Semester 1 to semester 2 dropoff rate": 24 / 31,
+    "Semester 1 beginner to training rate": 2 / 69,
+    "Semester 2 beginner to training rate": 5 / 69,
+    "Member to nationals rate": 24 / 69,
+}
 
 
+def model_2024(costs, controllable_variables, dropoff_rates):
+    """takes in  3 dictionaries containing 1) costs 2) controllable variables and 3) the dropoff rates
+    and returns money_in, money_out and num_members_needed (to breake even)"""
 
-### - PROBABILITY-DISTRIBUTED VARIABLES - ###
-ref_hire = 130
-# misc_costs = 100
-required_num_players = 11
-
-# --------CALCULATIONS-----------#
-# Based on num_members = 69
-
-money_in = (
-    num_members
-    * (
-        membership_fee
-        + (sem_1_ice_fee_cost * member_to_player_dropoff_rate)
-        + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate)
-        + (sem_2_ice_fee_cost * member_to_player_dropoff_rate)
-        + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate)
-        + nationals_fees * member_to_nationals_rate
-    ) + grants
-    + eys_grant
-    + (num_matches_per_team * num_teams * match_fee_cost * required_num_players)
-)
-
-money_out = (
-    ice_hire * (num_training_sessions + num_beginners_sessions)
-    + num_matches_per_team * num_teams * (ref_hire + 2 * ice_hire + match_beers)
-    + buiha_aff_fee
-    + num_teams * (buiha_league_fee_per_team + buiha_nationals_fee_per_team)
-)
-
-# Now calculating based on money_in = money_out
-num_members = (
-    money_out
-    - (num_matches_per_team * num_teams * match_fee_cost * required_num_players)
-    - grants
-    - eys_grant
-) / (
-    (
-        membership_fee
-        + (sem_1_ice_fee_cost * member_to_player_dropoff_rate)
-        + (beginners_sem_1_ice_fee_cost * sem_1_beginner_to_training_rate)
-        + (sem_2_ice_fee_cost * member_to_player_dropoff_rate)
-        + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate)
-        + nationals_fees * member_to_nationals_rate
+    """dropoff rates calcualations"""
+    sem_1_ice_fee_paying_members = (
+        dropoff_rates["Member to player dropoff rate"]
+        * controllable_variables["Number of members"]
     )
-)
+    sem_2_ice_fee_paying_members = (
+        sem_1_ice_fee_paying_members
+        * dropoff_rates["Semester 1 to semester 2 dropoff rate"]
+    )
+
+    beginners_paying_sem_1_beg_ice_fee = (
+        dropoff_rates["Semester 1 beginner to training rate"]
+        * controllable_variables["Number of members"]
+    )
+    beginners_paying_sem_2_beg_ice_fee = (
+        dropoff_rates["Semester 2 beginner to training rate"]
+        * controllable_variables["Number of members"]
+    )
+
+    num_members_paid_nationals_fees = (
+        dropoff_rates["Member to nationals rate"]
+        * controllable_variables["Number of members"]
+    )
+
+    """money in calculations"""
+
+    money_in = (
+        controllable_variables["Number of members"]
+        * (
+            controllable_variables["Membership fee"]
+            + (
+                controllable_variables["Semester 1 ice fee cost"]
+                * dropoff_rates["Member to player dropoff rate"]
+            )
+            + (
+                controllable_variables["Beginners semester 1 ice fee cost"]
+                * dropoff_rates["Semester 1 beginner to training rate"]
+            )
+            + (
+                controllable_variables["Semester 2 ice fee cost"]
+                * dropoff_rates["Member to player dropoff rate"]
+            )
+            + (
+                controllable_variables["Beginners semester 2 ice fee cost"]
+                * dropoff_rates["Semester 2 beginner to training rate"]
+            )
+            + controllable_variables["Nationals fees cost"]
+            * dropoff_rates["Member to nationals rate"]
+        )
+        + controllable_variables["Grant and spon"]
+        + controllable_variables["EYS grant"]
+        + (
+            controllable_variables["Number of matches per team"]
+            * controllable_variables["Number of teams"]
+            * controllable_variables["Match fee cost"]
+            * controllable_variables["Number of players in a match"]
+        )
+    )
+    print(f"Money in: £{money_in}")
+
+    """money out calculations"""
+    money_out = (
+        costs["Ice hire"]
+        * (
+            controllable_variables["Number of training sessions"]
+            + controllable_variables["Number of beginners sessions"]
+        )
+        + controllable_variables["Number of matches per team"]
+        * controllable_variables["Number of teams"]
+        * (costs["Ref hire"] + 2 * costs["Ice hire"] + costs["Match beers"])
+        + costs["BUIHA affiliation fee"]
+        + controllable_variables["Number of teams"]
+        * (costs["BUIHA league fee per team"] + costs["BUIHA nationals fee per team"])
+    )
+    print(f"Money out: £{money_out}")
+
+    """number of members needed calculations"""
+
+    num_members = (
+        money_out
+        - (
+            controllable_variables["Number of matches per team"]
+            * controllable_variables["Number of teams"]
+            * controllable_variables["Match fee cost"]
+            * controllable_variables["Number of players in a match"]
+        )
+        - controllable_variables["Grant and spon"]
+        - controllable_variables["EYS grant"]
+    ) / (
+        (
+            controllable_variables["Membership fee"]
+            + (
+                controllable_variables["Semester 1 ice fee cost"]
+                * dropoff_rates["Member to player dropoff rate"]
+            )
+            + (
+                controllable_variables["Beginners semester 1 ice fee cost"]
+                * dropoff_rates["Semester 1 beginner to training rate"]
+            )
+            + (
+                controllable_variables["Semester 2 ice fee cost"]
+                * dropoff_rates["Member to player dropoff rate"]
+            )
+            + (
+                controllable_variables["Beginners semester 2 ice fee cost"]
+                * dropoff_rates["Semester 2 beginner to training rate"]
+            )
+            + controllable_variables["Nationals fees cost"]
+            * dropoff_rates["Member to nationals rate"]
+        )
+    )
+    print(f"Number of members needed to break even: £{num_members}")
 
 
-# --------RESULTS----------#
-
-print(f"money_in = {money_in}")
-print(f"money_out = {money_out}")
-print(f"Number of members = {num_members}")
-
-
-
+model_2024(costs, controllable_variables, dropoff_rates)
