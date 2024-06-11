@@ -2,7 +2,7 @@
 
 num_training_sessions = 48
 num_beginners_sessions = 20
-num_members = 70
+num_members = 40
 grant = 2350
 spon = 1000
 membership_fee = 50
@@ -10,15 +10,15 @@ sem_1_ice_fee_cost = 65
 s1ifc = sem_1_ice_fee_cost
 sem_2_ice_fee_cost = 75
 s2ifc = sem_2_ice_fee_cost
-beginners_to_training_fee = 35
+beginners_session_fee = 5
 buiha_nationals_fee_per_team = 500
 match_fee_cost = 20
 nationals_fees = 45
 
-sem_1_ice_fee_paying_members = 25
-sem_2_ice_fee_paying_members = 25
+sem_1_ice_fee_paying_members = 31
+sem_2_ice_fee_paying_members = 24
 
-num_beginners_paying_training_fee = 5
+num_beginners = 15
 num_members_paid_nationals_fees = 25
 
 ice_hire = 120
@@ -39,8 +39,8 @@ membership_income = num_members * membership_fee
 sem_1_ice_fee = sem_1_ice_fee_paying_members * sem_1_ice_fee_cost
 sem_2_ice_fee = sem_2_ice_fee_paying_members * sem_2_ice_fee_cost
 players_ice_fees = sem_1_ice_fee + sem_2_ice_fee
-beginners_fees = num_beginners_paying_training_fee * beginners_to_training_fee
-annual_ice_fees = players_ice_fees + beginners_fees
+beginners_income = num_beginners * beginners_session_fee * (num_beginners_sessions - 6)
+annual_ice_fees = players_ice_fees + beginners_income
 match_fees_income = (required_num_players * match_fee_cost) * num_matches
 training_cost = num_training_sessions * ice_hire
 beginners_costs = num_beginners_sessions * ice_hire
@@ -57,6 +57,7 @@ money_in = (
     + annual_ice_fees
     + match_fees_income
     + nationals_income
+    + beginners_income
 )
 money_out = (
     training_cost 
@@ -68,6 +69,7 @@ money_out = (
 
 leftover_money = starting_money + money_in - money_out
 extra_money = leftover_money - starting_money
+
 # Print the result
 
 print(f"Money In: {money_in}")  
