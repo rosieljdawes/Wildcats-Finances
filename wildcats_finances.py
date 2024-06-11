@@ -4,8 +4,8 @@ num_training_sessions = 62
 num_beginners_sessions = 20
 num_members = 69
 grants = 3350 #incl. spon
-# equipment_grant = 500
-# eys_grant = 400
+# equipment_grant = 500 (remove completely as it should be added to the grants variable)
+eys_grant = 400 # kept seperate 
 membership_fee = 50
 sem_1_ice_fee_cost = 65
 sem_2_ice_fee_cost = 75
@@ -64,6 +64,7 @@ money_in = (
         + (beginners_sem_2_ice_fee_cost * sem_2_beginner_to_training_rate)
         + nationals_fees * member_to_nationals_rate
     ) + grants
+    + eys_grant
     + (num_matches_per_team * num_teams * match_fee_cost * required_num_players)
 )
 
@@ -79,6 +80,7 @@ num_members = (
     money_out
     - (num_matches_per_team * num_teams * match_fee_cost * required_num_players)
     - grants
+    - eys_grant
 ) / (
     (
         membership_fee
