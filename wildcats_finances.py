@@ -14,7 +14,7 @@ controllable_variables = {
     "Number of training sessions": 62,
     "Number of beginners sessions": 20,
     "Number of members": 69,
-    "Grant and spon": 3350,
+    "Grant and spon": 2350,
     "EYS grant": 400,
     "Membership fee": 50,
     "Semester 1 ice fee cost": 65,
@@ -155,7 +155,7 @@ def model_2024(costs, controllable_variables, dropoff_rates):
             * dropoff_rates["Member to nationals rate"]
         )
     )
-    print(f"Number of members needed to break even: £{num_members}")
+    print(f"Number of members needed to break even: {num_members}")
 
 
 model_2024(costs, controllable_variables, dropoff_rates)
